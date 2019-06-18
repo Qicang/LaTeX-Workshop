@@ -426,7 +426,8 @@ export class HoverProvider implements vscode.HoverProvider {
 
     private mathjaxify(tex: string, envname: string, opt = { stripLabel: true }) : string {
         // remove TeX comments
-        let s = tex.replace(/^\s*%.*\r?\n/mg, '')
+        let s = tex.replace(/^\s*!/mg,'')
+        s = s.replace(/\s*%.*\r?\n/mg, '')
         s = s.replace(/^((?:\\.|[^%])*).*$/mg, '$1')
         // remove \label{...}
         if (opt.stripLabel) {

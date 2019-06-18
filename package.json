@@ -30,6 +30,8 @@
     "onLanguage:latex",
     "onLanguage:doctex",
     "onLanguage:pdf",
+    "onLanguage:fortran-modern",
+    "onLanguage:FortranFreeForm",
     "onCommand:latex-workshop.build",
     "onCommand:latex-workshop.recipes",
     "onCommand:latex-workshop.view",
@@ -77,8 +79,7 @@
           "latex"
         ],
         "extensions": [
-          ".tex",
-          ".ltx"
+          ".tex"
         ],
         "configuration": "./syntax/syntax.json"
       },

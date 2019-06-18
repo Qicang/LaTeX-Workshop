@@ -180,6 +180,7 @@ function newVersionMessage(extensionPath: string, extension: Extension) {
 }
 
 export async function activate(context: vscode.ExtensionContext) {
+   
     const extension = new Extension()
     global['latex'] = extension
     vscode.commands.executeCommand('setContext', 'latex-workshop:enabled', true)
@@ -190,7 +191,6 @@ export async function activate(context: vscode.ExtensionContext) {
     // } else {
     //     vscode.commands.executeCommand('setContext', 'latex-workshop:altkeymap', false)
     // }
-
     vscode.commands.registerCommand('latex-workshop.saveWithoutBuilding', () => extension.commander.saveWithoutBuilding())
     vscode.commands.registerCommand('latex-workshop.build', () => extension.commander.build())
     vscode.commands.registerCommand('latex-workshop.recipes', (recipe) => extension.commander.recipes(recipe))
@@ -333,6 +333,8 @@ export async function activate(context: vscode.ExtensionContext) {
         extension.structureViewer.showCursorIteme(e)
     }))
 
+    context.subscriptions.push(vscode.languages.registerHoverProvider({ scheme: 'file', language: 'FortranFreeForm'}, new HoverProvider(extension)))
+    context.subscriptions.push(vscode.languages.registerHoverProvider({ scheme: 'file', language: 'fortran-modern'}, new HoverProvider(extension)))
     context.subscriptions.push(vscode.languages.registerHoverProvider({ scheme: 'file', language: 'latex'}, new HoverProvider(extension)))
     context.subscriptions.push(vscode.languages.registerDefinitionProvider({ scheme: 'file', language: 'latex'}, new DefinitionProvider(extension)))
     context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider({ scheme: 'file', language: 'latex'}, new DocSymbolProvider(extension)))
@@ -342,7 +344,7 @@ export async function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.languages.registerCompletionItemProvider({ scheme: 'file', language: 'doctex'}, extension.completer, '\\', '{', ',', '(', '['))
     context.subscriptions.push(vscode.languages.registerCodeActionsProvider({ scheme: 'file', language: 'latex'}, extension.codeActions))
     context.subscriptions.push(vscode.languages.registerFoldingRangeProvider({ scheme: 'file', language: 'latex'}, new FoldingProvider(extension)))
-
+    
     extension.linter.lintRootFileIfEnabled()
     obsoleteConfigCheck(extension)
     conflictExtensionCheck()
